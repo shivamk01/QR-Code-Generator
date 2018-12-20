@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>QR code generator</title>
+<style>
+  body { 
+  background-color:#cccccc;
+  font-family: arial, sans-serif; }
+  section {
+    margin: 50px auto;
+    max-width: 350px;
+    text-align: center;
+  }
+  textarea {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  #size { max-width: 64px; }
+</style>
+</head>
+<body>
+<section>
+  <h1>QR code generator</h1>
+  <p>Enter some text / random characters !</p>
+  <textarea id="textarea" autofocus></textarea>
+  <label for="size">Size (px):</label>
+  <input id="size" type="number" value="150" min="50" max="500" step="50"></br></br></br>
+  <button style="border-radius:7px;border:2px solid black;height:35px;width:100px;cursor:pointer;color:white;background-color:black;" onclick="genQRcode()">Generate</button>
+  <div id="content" style="display: none;">
+    <p><img id="qrcode" src="" /></p>
+    
+  </div>
+</section>
+<script>
+  var textarea = document.getElementById("textarea"),
+    content = document.getElementById("content");
+textarea.value="9427499789";
+  function genQRcode() {
+    var data = encodeURIComponent(textarea.value),
+      size = document.getElementById("size").value,
+      chart = "http://chart.googleapis.com/chart?cht=qr&chs=" + size + "x" + size + "&choe=UTF-8&chld=L|0&chl=" + data;
+    if (data === "") {
+      alert("Please enter a valid data!");
+      textarea.focus();
+      content.style.display = "none";
+    } else {
+      content.style.display = "";
+      document.getElementById("qrcode").src = chart;
+      document.getElementById("qrcode-url").value = chart;
+    }
+  }
+
+  document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.keyCode == 13) {
+      genQRcode();
+    }
+  });
+</script>
+</body>
+</html>
